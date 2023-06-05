@@ -35,8 +35,10 @@ The following are required to run the application in development or in productio
 Install [`cargo-generate`](https://crates.io/crates/cargo-generate) sub-command then execute:
 
 ```sh
-cargo generate --git https://github.com/riipandi/funstack
+cargo generate --git https://github.com/riipandi/funstack -b main -n myapp-name
 ```
+
+> Don't forget to change `myapp-name` with your real application name.
 
 ### Generate Secret Key
 
