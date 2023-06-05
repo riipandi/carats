@@ -24,10 +24,19 @@ The following are required to run the application in development or in productio
 - [PostgreSQL](https://www.postgresql.org/download/) PostgreSQL server v14 or greater.
 - [sqlx](https://crates.io/crates/sqlx) for interacting with the database.
 - [sqlx-cli](https://crates.io/crates/sqlx-cli) a command line tool for sqlx.
-- [cargo watch](https://crates.io/crates/cargo-watch), a tool for watching the project files and recompiling when they change.
+- [cargo-px](https://crates.io/crates/cargo-px), a cargo sub-command designed to augment cargo's capabilities.
+- [cargo-watch](https://crates.io/crates/cargo-watch), a tool for watching the project files and recompiling when they change.
 - [cargo-make](https://sagiegurari.github.io/cargo-make/#installation), task runner and build tool for Rust project.
 - [toml-cli](https://github.com/gnprice/toml-cli), a simple CLI for editing and querying TOML files.
 - [Docker](https://docs.docker.com/engine/install), v2.10 or greater, only required when building container image.
+
+### Create New Project
+
+Install [`cargo-generate`](https://crates.io/crates/cargo-generate) sub-command then execute:
+
+```sh
+cargo generate --git https://github.com/riipandi/funstack
+```
 
 ### Generate Secret Key
 
@@ -36,7 +45,7 @@ fill the `application secret key` with some random string. To generate a secret 
 the following command:
 
 ```sh
-cargo run --quiet --locked -- generate-secret
+cargo px run --quiet --locked -- generate-secret
 ```
 
 ### Up and Running
