@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "bradlc.vscode-tailwindcss",
+        "bungcip.better-toml",
+        "bungcip.better-toml",
+        "dbaeumer.vscode-eslint",
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "foxundermoon.shell-format",
+        "rust-lang.rust-analyzer",
+        "serayuzgur.crates",
+        "vadimcn.vscode-lldb"
+    ]
+}
