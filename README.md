@@ -47,7 +47,7 @@ fill the `application secret key` with some random string. To generate a secret 
 the following command:
 
 ```sh
-cargo px run --quiet --locked -- generate-secret
+cargo run --quiet --locked -- generate-secret
 ```
 
 ### Up and Running
