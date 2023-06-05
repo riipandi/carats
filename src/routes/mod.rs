@@ -5,6 +5,6 @@ pub mod api;
 pub mod root;
 pub mod spa;
 
-pub(crate) fn route(path: &str, method_router: axum::routing::MethodRouter<()>) -> axum::Router {
+pub fn route(path: &str, method_router: axum::routing::MethodRouter<()>) -> axum::Router {
 	axum::Router::new().route(path, method_router)
 }

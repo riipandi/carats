@@ -1,18 +1,8 @@
 // Copyright 2023-current Aris Ripandi <aris@duck.com>
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-mod cmd;
-mod handler;
-mod migrations;
-mod routes;
-mod schema;
-mod server;
-mod utils;
-
 use clap::{Parser, Subcommand};
-
-pub const PKG_NAME: &'static str = env!("CARGO_PKG_NAME");
-pub const PKG_VERSION: &'static str = env!("CARGO_PKG_VERSION");
+use funstack::{cmd, server};
 
 #[derive(Parser)]
 #[command(about, long_about = None)]

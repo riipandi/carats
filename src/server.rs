@@ -14,7 +14,7 @@ use crate::utils;
 pub static BASE_PATH_API: &str = "/api";
 pub static BASE_PATH_SPA: &str = "/ui";
 
-pub(crate) async fn run(addr: String) {
+pub async fn run(addr: String) {
 	// Define log tracing level
 	let log_level_app = format!("{}=debug", crate::PKG_NAME);
 	let log_level_lib = String::from("tower_http=info,axum::rejection=trace,sqlx=error");
@@ -113,7 +113,7 @@ async fn shutdown_signal() {
 	tracing::info!("signal received, starting graceful shutdown");
 }
 
-pub(crate) mod middleware {
+pub mod middleware {
 	use axum::http::{HeaderValue, Method};
 	use tower_http::cors::CorsLayer;
 
@@ -124,7 +124,7 @@ pub(crate) mod middleware {
 	}
 }
 
-pub(crate) mod responder {
+pub mod responder {
 	use axum::extract::{FromRef, FromRequestParts};
 	use axum::http::request::Parts;
 	use axum::http::{header, HeaderMap, StatusCode};
@@ -200,7 +200,7 @@ pub(crate) mod responder {
 	}
 
 	/// Utility function for mapping any error into a `500 Internal Server Error` response.
-	pub(crate) fn internal_error<E>(err: E) -> (StatusCode, String)
+	pub fn internal_error<E>(err: E) -> (StatusCode, String)
 	where
 		E: std::error::Error,
 	{
@@ -219,7 +219,7 @@ pub(crate) mod responder {
 		)
 	}
 
-	pub(crate) fn as_plain(status_code: StatusCode, body: String) -> Response {
+	pub fn as_plain(status_code: StatusCode, body: String) -> Response {
 		let mut headers = HeaderMap::new();
 		headers.insert(header::CONTENT_TYPE, "text/plain".parse().unwrap());
 		(status_code, headers, body).into_response()
