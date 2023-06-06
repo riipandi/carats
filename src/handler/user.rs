@@ -40,6 +40,7 @@ pub async fn index() -> impl IntoResponse {
 // 	// 	status_code: StatusCode::OK.as_u16(),
 // 	// 	message: Some("List all users"),
 // 	// 	data: Some(users),
+// 	// 	params: None,
 // 	// };
 
 // 	// (StatusCode::OK, Json(body))

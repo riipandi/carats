@@ -24,6 +24,7 @@ pub fn api_root() -> Router {
 			status_code: http_status.as_u16(),
 			message: Some(format!("This is default {} API endpoint", crate::PKG_NAME)),
 			data: None,
+			params: None,
 		};
 		(http_status, Json(body))
 	}

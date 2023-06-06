@@ -130,14 +130,18 @@ pub mod responder {
 	use axum::http::{header, HeaderMap, StatusCode};
 	use axum::response::{IntoResponse, Response};
 	use axum::Json;
-	use serde::Serialize;
+	use serde::{Deserialize, Serialize};
 
-	#[derive(Serialize, Debug)]
+	use crate::schema::FilterOptions;
+
+	#[derive(Serialize, Deserialize, Debug)]
 	pub struct JsonResponse<T> {
 		pub status_code: u16,
 		pub message: Option<String>,
 		#[serde(skip_serializing_if = "Option::is_none")]
 		pub data: Option<T>,
+		#[serde(skip_serializing_if = "Option::is_none")]
+		pub params: Option<FilterOptions>,
 	}
 
 	#[derive(Debug)]
