@@ -1,6 +1,5 @@
 pub mod cmd;
 pub mod handler;
-pub mod migrations;
 pub mod routes;
 pub mod schema;
 pub mod server;

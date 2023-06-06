@@ -16,14 +16,14 @@ pub fn register() -> Router {
 		.fallback(responder::throw_not_found)
 }
 
-pub fn home_route() -> Router {
+fn home_route() -> Router {
 	async fn handler() -> impl IntoResponse {
 		Redirect::to(BASE_PATH_API)
 	}
 	routes::route("/", get(handler))
 }
 
-pub fn health_check() -> Router {
+fn health_check() -> Router {
 	async fn handler() -> impl IntoResponse {
 		let platform = format!("{}-{}", std::env::consts::ARCH, std::env::consts::OS);
 		let timestamp = build_time::build_time_utc!("%Y-%m-%d %H:%M:%S UTC");
