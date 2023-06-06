@@ -1,10 +1,11 @@
 // Copyright 2023-current Aris Ripandi <aris@duck.com>
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
+use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use axum::{routing::*, Json, Router};
 
-use crate::server::responder;
+use crate::server::responder::{self, JsonResponse};
 use crate::{routes, server::middleware};
 
 pub fn register() -> Router {
@@ -18,8 +19,13 @@ pub fn register() -> Router {
 
 pub fn api_root() -> Router {
 	async fn handler() -> impl IntoResponse {
-		let message = format!("This is default {} API endpoint", crate::PKG_NAME);
-		Json(serde_json::json!({ "message": message }))
+		let http_status = StatusCode::OK;
+		let body: JsonResponse<&str> = JsonResponse {
+			status_code: http_status.as_u16(),
+			message: Some(format!("This is default {} API endpoint", crate::PKG_NAME)),
+			data: None,
+		};
+		(http_status, Json(body))
 	}
 	routes::route("/", get(handler))
 }

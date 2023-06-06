@@ -135,7 +135,7 @@ pub mod responder {
 	#[derive(Serialize, Debug)]
 	pub struct JsonResponse<T> {
 		pub status_code: u16,
-		pub message: Option<&'static str>,
+		pub message: Option<String>,
 		#[serde(skip_serializing_if = "Option::is_none")]
 		pub data: Option<T>,
 	}
