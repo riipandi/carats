@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: funstack
+      POSTGRES_DB: carats
     healthcheck:
       test: ["CMD", "pg_isready -U user"]
       interval: 30s
@@ -19,10 +19,10 @@ services:
     networks:
       - intranet
 
-  funstack:
-    image: ghcr.io/riipandi/funstack:latest
-    container_name: funstack
-    hostname: funstack
+  carats:
+    image: ghcr.io/riipandi/carats:latest
+    container_name: carats
+    hostname: carats
     ports:
       - 9090:9090
     env_file: .env.docker

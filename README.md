@@ -1,9 +1,9 @@
-# FUNStack
+# Carats
 
 [![(Rust)](https://img.shields.io/badge/rust-v1.69-orange.svg?logo=rust)](https://www.rust-lang.org/)
 [![Built with cargo-make](https://sagiegurari.github.io/cargo-make/assets/badges/cargo-make.svg)](https://sagiegurari.github.io/cargo-make)
 [![Contributions](https://img.shields.io/badge/Contributions-welcome-blue.svg)](./CODE_OF_CONDUCT.md)
-[![GitHub contributors](https://badgers.space/github/contributors/riipandi/funstack?color=green&corner_radius=3)](https://github.com/riipandi/funstack/graphs/contributors)
+[![GitHub contributors](https://badgers.space/github/contributors/riipandi/carats?color=green&corner_radius=3)](https://github.com/riipandi/carats/graphs/contributors)
 [![Twitter Badge](https://badgen.net/badge/icon/Follow%20Twitter?icon=twitter&label&color=blue&labelColor=black)](https://twitter.com/riipandi)
 
 <hr/>
@@ -35,7 +35,7 @@ The following are required to run the application in development or in productio
 Install [`cargo-generate`](https://crates.io/crates/cargo-generate) sub-command then execute:
 
 ```sh
-cargo generate --git https://github.com/riipandi/funstack -b main -n myapp-name
+cargo generate --git https://github.com/riipandi/carats -b main -n myapp-name
 ```
 
 > Don't forget to change `myapp-name` with your real application name.
@@ -92,7 +92,7 @@ echo $GH_TOKEN | docker login ghcr.io --username CHANGEME --password-stdin
 ### Running Docker Image
 
 ```sh
-docker run --rm -it --name funstack --env-file .env.docker -p 9090:9090 ghcr.io/riipandi/funstack:edge
+docker run --rm -it --name carats --env-file .env.docker -p 9090:9090 ghcr.io/riipandi/carats:edge
 ```
 
 ### Simple Load Testing

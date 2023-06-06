@@ -12,7 +12,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: funstack
+      POSTGRES_DB: carats
     healthcheck:
       test: ["CMD", "pg_isready -U user"]
       interval: 30s
@@ -26,7 +26,7 @@ services:
     ports:
       - '54321:8081'
     environment:
-      DATABASE_URL: 'postgres://postgres:postgres@pgsql:5432/funstack?sslmode=disable'
+      DATABASE_URL: 'postgres://postgres:postgres@pgsql:5432/carats?sslmode=disable'
       PGWEB_LOCK_SESSION: true
     depends_on:
       - pgsql

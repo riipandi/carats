@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
 use clap::{Parser, Subcommand};
-use funstack::{cmd, server};
+use carats::{cmd, server};
 
 #[derive(Parser)]
 #[command(about, long_about = None)]

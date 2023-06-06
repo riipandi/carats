@@ -18,12 +18,12 @@ RUN npm config set fund false && npm install --no-audit && npm run build
 FROM cgr.dev/chainguard/rust:1.69 AS builder
 WORKDIR /app
 COPY --chown=$(whoami): --from=base /app /app
-RUN cargo build --release --locked --bin funstack
+RUN cargo build --release --locked --bin carats
 
 # -----------------------------------------------------------------------------
 # Final image: https://kerkour.com/rust-small-docker-image
 # -----------------------------------------------------------------------------
-LABEL org.opencontainers.image.source "https://github.com/riipandi/funstack"
+LABEL org.opencontainers.image.source "https://github.com/riipandi/carats"
 LABEL org.opencontainers.image.description "This is a starter Rust and React project."
 FROM cgr.dev/chainguard/glibc-dynamic:latest as runner
 
@@ -42,8 +42,8 @@ ENV JWT_SECRET_KEY $JWT_SECRET_KEY
 ENV DISABLE_UI $DISABLE_UI
 
 # Import compiled binaries from builder
-COPY --from=builder /app/target/release/funstack /sbin/funstack
+COPY --from=builder /app/target/release/carats /sbin/carats
 
 EXPOSE $BIND_PORT
 
-ENTRYPOINT ["/sbin/funstack", "--port", "${BIND_PORT}"]
+ENTRYPOINT ["/sbin/carats", "--port", "${BIND_PORT}"]

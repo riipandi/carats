@@ -3,14 +3,14 @@
 ###
 
 [package]
-name = "funstack"
+name = "carats"
 version = "0.0.1"
 authors = ["Aris Ripandi <aris@duck.com>"]
 description = "This is a starter Rust and React project."
-repository = "https://github.com/riipandi/funstack"
-documentation = "https://github.com/riipandi/funstack"
+repository = "https://github.com/riipandi/carats"
+documentation = "https://github.com/riipandi/carats"
 categories = ["command-line-utilities", "web-programming"]
-keywords = ["funstack", "application", "starter"]
+keywords = ["carats", "application", "starter"]
 license = "MIT OR Apache-2.0"
 rust-version = "1.69"
 edition = "2021"

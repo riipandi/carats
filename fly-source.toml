@@ -2,7 +2,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 ##
 
-app = "funstack"
+app = "carats"
 primary_region = "sjc"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
@@ -15,7 +15,7 @@ kill_timeout = "5s"
 
 [deploy]
   strategy = "rolling"
-  # release_command = "/sbin/funstack migrate --force"
+  # release_command = "/sbin/carats migrate --force"
 
 [env]
   PRIMARY_REGION = "sjc"

@@ -36,7 +36,7 @@ export default function Home() {
           </Button>
           <Button
             as={'a'}
-            href='https://github.com/riipandi/funstack'
+            href='https://github.com/riipandi/carats'
             className='inline-flex items-center justify-center bg-black '
             rel='noopener noreferrer'
             target='_blank'

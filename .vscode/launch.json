@@ -4,11 +4,11 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'funstack'",
+            "name": "Debug executable 'carats'",
             "cargo": {
-                "args": ["build", "--bin=funstack", "--package=funstack"],
+                "args": ["build", "--bin=carats", "--package=carats"],
                 "filter": {
-                    "name": "funstack",
+                    "name": "carats",
                     "kind": "bin"
                 }
             },
@@ -18,11 +18,11 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'funstack'",
+            "name": "Debug unit tests in executable 'carats'",
             "cargo": {
-                "args": ["test", "--no-run", "--bin=funstack", "--package=funstack"],
+                "args": ["test", "--no-run", "--bin=carats", "--package=carats"],
                 "filter": {
-                    "name": "funstack",
+                    "name": "carats",
                     "kind": "bin"
                 }
             },
