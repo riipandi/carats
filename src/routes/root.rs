@@ -7,7 +7,6 @@ use axum::{http::StatusCode, routing::*, Router};
 
 use crate::server::BASE_PATH_API;
 use crate::{routes, server::responder};
-use crate::{PKG_NAME, PKG_VERSION};
 
 pub fn register() -> Router {
 	Router::new()
@@ -25,18 +24,34 @@ fn home_route() -> Router {
 
 fn health_check() -> Router {
 	async fn handler() -> impl IntoResponse {
-		let platform = format!("{}-{}", std::env::consts::ARCH, std::env::consts::OS);
-		let timestamp = build_time::build_time_utc!("%Y-%m-%d %H:%M:%S UTC");
-		let message = format!("{} {} {} ({})", PKG_NAME, PKG_VERSION, platform, timestamp);
-		responder::as_plain(StatusCode::OK, message)
+		tracing::info!("Health check success");
+		responder::as_plain(StatusCode::OK, crate::cmd::about())
+
+		// let uri = crate::utils::get_envar("DATABASE_URL", None);
+		// let pool = Pool::<Postgres>::connect(&uri).await.unwrap();
+
+		// let result = sqlx::query!("SELECT 1 as value").fetch_one(&pool);
+
+		// match result {
+		// 	Ok(users) => (StatusCode::OK, Json(users)),
+		// 	Err(err) => {
+		// 		tracing::error!("error retrieving users: {:?}", err);
+		// 		(StatusCode::INTERNAL_SERVER_ERROR, Json(Vec::<User>::new()))
+		// 	}
+		// }
 	}
 
-	// async fn handler(State(pool): State<sqlx::PgPool>) -> impl IntoResponse {
-	// 	let result = sqlx::query_scalar("select 'hello world from pg'").fetch_one(&pool);
+	// async fn handler(State(pool): State<sqlx::PgPool>) -> Result<impl IntoResponse, anyhow::Error> {
+	// 	// Make a simple query to check database connected or not
+	// 	let result = sqlx::query!("SELECT 1 as value").fetch_one(&pool);
 
+	// 	// anyhow::bail!("Health check error: {}", err);
 	// 	match result.await {
-	// 		Ok(_val) => (StatusCode::OK, String::from("Hahhaha")),
-	// 		Err(_) => todo!(),
+	// 		Ok(_res) => {
+	// 			tracing::info!("Health check success");
+	// 			responder::as_plain(StatusCode::OK, crate::cmd::about())
+	// 		}
+	// 		Err(err) => anyhow::bail!("Health check error: {}", err),
 	// 	}
 	// }
 

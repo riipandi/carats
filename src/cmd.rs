@@ -4,7 +4,7 @@
 use dialoguer::{theme::ColorfulTheme, Confirm};
 use sqlx::{migrate::Migrator, Pool, Postgres};
 
-use crate::{utils, PKG_NAME, PKG_VERSION};
+use crate::{utils, BUILD_TIME, PKG_ARCH, PKG_NAME, PKG_OS, PKG_VERSION};
 
 #[derive(rust_embed::RustEmbed)]
 #[folder = "migrations/"]
@@ -17,9 +17,13 @@ pub fn version(short: bool) {
 	if short {
 		println!("{}", PKG_VERSION);
 	} else {
-		let build_timestamp = build_time::build_time_utc!("%Y-%m-%d %H:%M:%S UTC");
-		println!("{} {} ({})", PKG_NAME, PKG_VERSION, build_timestamp);
+		println!("{}", about());
 	}
+}
+
+pub fn about() -> String {
+	let platform = format!("{}-{}", PKG_ARCH, PKG_OS);
+	format!("{} {} {} ({})", PKG_NAME, PKG_VERSION, platform, BUILD_TIME)
 }
 
 pub fn generate_secret() -> String {

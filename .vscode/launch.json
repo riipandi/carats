@@ -2,6 +2,34 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'funstack'",
+            "cargo": {
+                "args": ["build", "--bin=funstack", "--package=funstack"],
+                "filter": {
+                    "name": "funstack",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'funstack'",
+            "cargo": {
+                "args": ["test", "--no-run", "--bin=funstack", "--package=funstack"],
+                "filter": {
+                    "name": "funstack",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
             "name": "dev:frontend",
             "type": "node",
             "request": "launch",
@@ -46,7 +74,7 @@
                 "group": "debug",
                 "order": 3
             }
-        },
+        }
     ],
     "compounds": [
         {

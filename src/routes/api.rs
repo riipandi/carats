@@ -25,21 +25,18 @@ pub fn api_root() -> Router {
 }
 
 mod auth_routes {
-	use crate::handler::auth as handler;
-	use crate::routes::route;
+	use crate::{handler::auth as handler, routes::route};
 	use axum::{routing::*, Router};
 
 	pub fn register() -> Router {
 		Router::new()
-			.merge(route("/login", get(handler::login_index)))
-			.merge(route("/login", post(handler::post_login)))
-			.merge(route("/register", get(handler::signup_index)))
+			.merge(route("/login", post(handler::login)))
+			.merge(route("/register", post(handler::signup)))
 	}
 }
 
 mod user_routes {
-	use crate::handler::user as handler;
-	use crate::routes::route;
+	use crate::{handler::user as handler, routes::route};
 	use axum::{routing::*, Router};
 
 	pub fn register() -> Router {

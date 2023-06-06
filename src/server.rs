@@ -4,12 +4,11 @@
 use std::{net::SocketAddr, time::Duration};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
 
-// Used for tracing layer (logger middleware)
 use axum::{extract::MatchedPath, http::Request, response::Response, Router};
 use tower_http::{classify::ServerErrorsFailureClass, trace::TraceLayer};
-use tracing::{info_span, Span};
+use tracing::{field, info_span, Span};
 
-use crate::utils;
+use crate::{routes, utils};
 
 pub static BASE_PATH_API: &str = "/api";
 pub static BASE_PATH_SPA: &str = "/ui";
@@ -39,11 +38,14 @@ async fn app_service(addr: String) {
 		.await
 		.expect("Can't connect to database");
 
+	let api_routes = routes::api::register();
+	let spa_routes = routes::spa::register();
+
 	let app = Router::new()
 		.with_state(db_pool)
-		.merge(crate::routes::root::register())
-		.nest(BASE_PATH_API, crate::routes::api::register())
-		.nest(BASE_PATH_SPA, crate::routes::spa::register());
+		.merge(routes::root::register())
+		.nest(BASE_PATH_API, api_routes)
+		.nest(BASE_PATH_SPA, spa_routes);
 
 	tracing::info!("🚀 Application started at http://{}", addr);
 	serve(app, addr).await;
@@ -64,7 +66,7 @@ async fn serve(app: Router, addr: String) {
 				"http_request",
 				method = ?req.method(),
 				matched_path,
-				some_other_field = tracing::field::Empty,
+				some_other_field = field::Empty,
 			)
 		})
 		.on_request(|req: &Request<_>, _span: &Span| {
@@ -125,15 +127,34 @@ pub mod middleware {
 }
 
 pub mod responder {
-	use axum::extract::{FromRef, FromRequestParts};
-	use axum::http::request::Parts;
 	use axum::http::{header, HeaderMap, StatusCode};
 	use axum::response::{IntoResponse, Response};
 	use axum::Json;
-
-	use async_trait::async_trait;
 	use serde::Serialize;
-	use sqlx::{pool::PoolConnection, PgPool, Postgres};
+
+	#[derive(Serialize, Debug)]
+	pub struct JsonResponse<T> {
+		pub status_code: u16,
+		pub message: Option<&'static str>,
+		#[serde(skip_serializing_if = "Option::is_none")]
+		pub data: Option<T>,
+	}
+
+	#[derive(Debug)]
+	enum ErrorType {
+		#[allow(dead_code)]
+		NotFound,
+		#[allow(dead_code)]
+		UnAuthenticated,
+		#[allow(dead_code)]
+		UnAuthorized,
+		#[allow(dead_code)]
+		BadRequest,
+		#[allow(dead_code)]
+		MethodNotAllowed,
+		#[allow(dead_code)]
+		InternalError,
+	}
 
 	// Make our own error that wraps `anyhow::Error`.
 	pub struct AppError(anyhow::Error);
@@ -142,14 +163,8 @@ pub mod responder {
 	pub struct ResponseError {
 		pub status_code: u16,
 		pub message: String,
+		#[serde(skip_serializing_if = "Option::is_none")]
 		pub reason: Option<String>,
-	}
-
-	#[derive(Serialize, Debug)]
-	pub struct JsonResponse<T> {
-		pub status_code: u16,
-		pub message: Option<&'static str>,
-		pub data: Option<T>,
 	}
 
 	// Tell axum how to convert `AppError` into a response.
@@ -160,7 +175,7 @@ pub mod responder {
 			let err = ResponseError {
 				status_code: http_status.as_u16(),
 				message: http_status.to_string(),
-				reason: Some(format!("{}", self.0)),
+				reason: Some(format!("{:}", self.0)),
 			};
 
 			(http_status, Json(err)).into_response()
@@ -178,45 +193,13 @@ pub mod responder {
 		}
 	}
 
-	// we can also write a custom extractor that grabs a connection from the pool
-	// which setup is appropriate depends on your application
-	pub struct DatabaseConnection(PoolConnection<Postgres>);
-
-	#[async_trait]
-	impl<S> FromRequestParts<S> for DatabaseConnection
-	where
-		PgPool: FromRef<S>,
-		S: Send + Sync,
-	{
-		type Rejection = (StatusCode, String);
-		async fn from_request_parts(
-			_parts: &mut Parts,
-			state: &S,
-		) -> Result<Self, Self::Rejection> {
-			let pool = PgPool::from_ref(state);
-			let conn = pool.acquire().await.map_err(internal_error)?;
-			Ok(Self(conn))
-		}
+	pub async fn throw_not_found() -> Result<(), AppError> {
+		throw_response("Resource not found")?;
+		Ok(())
 	}
 
-	/// Utility function for mapping any error into a `500 Internal Server Error` response.
-	pub fn internal_error<E>(err: E) -> (StatusCode, String)
-	where
-		E: std::error::Error,
-	{
-		(StatusCode::INTERNAL_SERVER_ERROR, err.to_string())
-	}
-
-	pub async fn throw_not_found() -> impl IntoResponse {
-		let http_status = StatusCode::NOT_FOUND;
-		(
-			http_status,
-			Json(ResponseError {
-				status_code: http_status.as_u16(),
-				message: String::from("Resource not found"),
-				reason: None,
-			}),
-		)
+	pub fn throw_response(message: &str) -> Result<(), anyhow::Error> {
+		anyhow::bail!(String::from(message))
 	}
 
 	pub fn as_plain(status_code: StatusCode, body: String) -> Response {

@@ -11,3 +11,9 @@ pub struct JwtClaims {
 	pub exp: i64,    // Expiration time (Unix timestamp)
 	pub iat: i64,    // Issued at time (Unix timestamp)
 }
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct LoginRequest {
+	pub email: String,
+	pub password: String,
+}

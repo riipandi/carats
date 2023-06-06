@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
 mod login;
-mod register;
+mod signup;
 
 pub use self::login::*;
-pub use self::register::*;
+pub use self::signup::*;

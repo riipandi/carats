@@ -4,14 +4,7 @@
 use axum::{http::StatusCode, response::IntoResponse, Json};
 use serde_json::json;
 
-pub async fn login_index() -> impl IntoResponse {
-	let body = Json(json!({
-	  "message": "Not yet implemented"
-	}));
-	(StatusCode::OK, body)
-}
-
-pub async fn post_login() -> impl IntoResponse {
+pub async fn login() -> impl IntoResponse {
 	let body = Json(json!({
 	  "message": "Not yet implemented"
 	}));
