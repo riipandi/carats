@@ -88,23 +88,42 @@ tasks:
     desc: Stop database and local mailer
     cmds: [docker-compose -f compose-development.yaml down --remove-orphans]
 
-  docker-build:
-    desc: Build docker container image
+  docker-build-edge:
+    desc: Build docker container image (edge)
     cmds:
       - echo "Building {{.DOCKER_IMAGE_NAME}}:{{.GIT_SHA}} docker image"
       - |
-        docker build -f Dockerfile \
-          --build-arg BIND_PORT={{.BIND_PORT}} \
-          -t "{{.DOCKER_IMAGE_NAME}}:{{.GIT_SHA}}" \
-          -t "{{.DOCKER_IMAGE_NAME}}:edge" .
+          docker build -f Dockerfile \
+            --build-arg BIND_PORT={{.BIND_PORT}} \
+            -t "{{.DOCKER_IMAGE_NAME}}:{{.GIT_SHA}}" \
+            -t "{{.DOCKER_IMAGE_NAME}}:edge" .
 
-  docker-push:
-    desc: Push docker container to registry
+  docker-push-edge:
+    desc: Push docker container to registry (edge)
     cmds:
       - |
           docker push \
             -t "{{.DOCKER_IMAGE_NAME}}:{{.GIT_SHA}}" \
             -t "{{.DOCKER_IMAGE_NAME}}:edge"
+
+  docker-build-latest:
+    desc: Build docker container image (latest)
+    cmds:
+      - echo "Building {{.DOCKER_IMAGE_NAME}}:{{.GIT_SHA}} docker image"
+      - |
+          docker build -f Dockerfile \
+            --build-arg BIND_PORT={{.BIND_PORT}} \
+            -t "{{.DOCKER_IMAGE_NAME}}:{{.APP_VERSION}}" \
+            -t "{{.DOCKER_IMAGE_NAME}}:{{.GIT_SHA}}" \
+            -t "{{.DOCKER_IMAGE_NAME}}:latest" .
+
+  docker-push-latest:
+    desc: Push docker container to registry (latest)
+    cmds:
+      - |
+          docker push \
+            -t "{{.DOCKER_IMAGE_NAME}}:{{.APP_VERSION}}" \
+            -t "{{.DOCKER_IMAGE_NAME}}:latest"
 
   docker-run:
     desc: Run the docker container
