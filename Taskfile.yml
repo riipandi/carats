@@ -40,6 +40,12 @@ tasks:
     deps: [install-deps]
     cmds: [pnpm build]
 
+  generate-secret:
+    aliases: [gen-secret]
+    desc: Generate secret key
+    silent: true
+    cmds: [cargo run --quiet --locked -- generate-secret]
+
   dev-frontend:
     desc: Run frontend in development mode
     internal: true
