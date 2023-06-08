@@ -60,6 +60,7 @@ tasks:
     desc: Lint and format the code
     cmds:
       - pnpm format
+      - pnpm lint:fix
       - cargo fmt -- --emit=files
 
   sync-version:

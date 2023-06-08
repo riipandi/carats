@@ -4,7 +4,7 @@
 
 [package]
 name = "carats"
-version = "0.0.100"
+version = "0.0.1"
 authors = ["Aris Ripandi <aris@duck.com>"]
 description = "This is a starter Rust and React project."
 repository = "https://github.com/riipandi/carats"
