@@ -68,7 +68,7 @@ tasks:
 
   sync-version:
     desc: Sync version between main app and frontend
-    internal: true
+    internal: false
     cmds:
       - 'sed -i "" "s/\"name\": \"{{.PKG_WEB_NAME}}\"/\"name\": \"{{.APP_NAME}}\"/" package.json'
       - 'sed -i "" "s/\"version\": \"{{.PKG_WEB_VERSION}}\"/\"version\": \"{{.APP_VERSION}}\"/" package.json'
