@@ -1,0 +1,95 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  APP_NAME: carats
+  APP_VERSION: 0.0.1
+  GIT_SHA: {sh: git rev-parse --short HEAD}
+  PKG_WEB_VERSION: {sh: cat package.json | jq -r .version}
+  CURRENT_TIME: {sh: date -u +"%Y-%m-%dT%H:%M:%SZ"}
+  BUILD_VERSION: git-{{.GIT_SHA}}
+  DOCKER_IMAGE_NAME: riipandi/carats
+  DOCKER_IMAGE_WITH_TAG: "{{.DOCKER_IMAGE_NAME}}:{{.GIT_SHA}}"
+  BIND_PORT: '{{default "9090" .BIND_PORT}}'
+
+tasks:
+  dev:
+    desc: Run frontend and server concurrently
+    deps:
+      - task: dev-frontend
+        silent: true
+      - task: dev-server
+    cmds:
+      - echo "Running in development mode"
+
+  build:
+    desc: Build the project
+    deps: [install-deps, build-frontend]
+    cmds:
+      - cargo build --release --locked
+      - ls -lh target/release
+
+  build-frontend:
+    desc: Build the frontend
+    deps: [sync-version]
+    cmds: [pnpm build]
+
+  dev-frontend:
+    desc: Run frontend in development mode
+    deps: [sync-version]
+    cmds: [pnpm dev]
+
+  dev-server:
+    desc: Run the server in development mode
+    cmds:
+      - cargo watch -qcx 'run -- --address 127.0.0.1 --port {{.BIND_PORT}}'
+
+  install-deps:
+    desc: Install required dependencies
+    cmds:
+      - pnpm install
+      - cargo update
+
+  format:
+    desc: Lint and format the code
+    cmds:
+      - pnpm format
+      - cargo fmt -- --emit=files
+
+  sync-version:
+    desc: Sync version between main app and frontend
+    cmds:
+      - 'sed -i "" "s/\"version\": \"{{.PKG_WEB_VERSION}}\"/\"version\": \"{{.APP_VERSION}}\"/" package.json'
+
+  start-compose:
+    desc: Start database and local mailer
+    cmds: [docker-compose -f compose-development.yaml up -d]
+
+  stop-compose:
+    desc: Stop database and local mailer
+    cmds: [docker-compose -f compose-development.yaml down --remove-orphans]
+
+  docker-build:
+    desc: Build docker container image
+    cmds:
+    - |
+        docker build -f Dockerfile \
+          --build-arg BIND_PORT={{.BIND_PORT}} \
+          -t {{.DOCKER_IMAGE_WITH_TAG}} \
+          -t "{{.DOCKER_IMAGE_NAME}}:edge" .
+
+  docker-push:
+    desc: Push docker container to registry
+    cmds:
+      - |
+        docker push \
+          -t {{.DOCKER_IMAGE_WITH_TAG}} \
+          -t "{{.DOCKER_IMAGE_NAME}}:edge"
+
+  docker-run:
+    desc: Run the docker container
+    cmds:
+    - |
+        docker run --rm -it --name {{.APP_NAME}} --env-file .env.docker \
+          -e BIND_PORT={{.BIND_PORT}} -e BIND_ADDR=0.0.0.0 \
+          -p {{.BIND_PORT}}:{{.BIND_PORT}} {{.DOCKER_IMAGE_WITH_TAG}}

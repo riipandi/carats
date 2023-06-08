@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
       {
-        "label": "cargo make build",
+        "label": "task build",
         "type": "shell",
         "command": "cargo",
         "args": [
@@ -24,7 +24,7 @@
         }
       },
       {
-        "label": "cargo make dev",
+        "label": "task dev",
         "type": "shell",
         "command": "cargo",
         "args": [
@@ -47,7 +47,7 @@
         }
       },
       {
-        "label": "cargo make watch-server",
+        "label": "task watch-server",
         "type": "shell",
         "command": "cargo",
         "args": [

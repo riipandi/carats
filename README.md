@@ -1,7 +1,6 @@
 # Carats
 
 [![(Rust)](https://img.shields.io/badge/rust-v1.69-orange.svg?logo=rust)](https://www.rust-lang.org/)
-[![Built with cargo-make](https://sagiegurari.github.io/cargo-make/assets/badges/cargo-make.svg)](https://sagiegurari.github.io/cargo-make)
 [![Contributions](https://img.shields.io/badge/Contributions-welcome-blue.svg)](./CODE_OF_CONDUCT.md)
 [![GitHub contributors](https://badgers.space/github/contributors/riipandi/carats?color=green&corner_radius=3)](https://github.com/riipandi/carats/graphs/contributors)
 [![Twitter Badge](https://badgen.net/badge/icon/Follow%20Twitter?icon=twitter&label&color=blue&labelColor=black)](https://twitter.com/riipandi)
@@ -26,7 +25,7 @@ The following are required to run the application in development or in productio
 - [sqlx-cli](https://crates.io/crates/sqlx-cli) a command line tool for sqlx.
 - [cargo-px](https://crates.io/crates/cargo-px), a cargo sub-command designed to augment cargo's capabilities.
 - [cargo-watch](https://crates.io/crates/cargo-watch), a tool for watching the project files and recompiling when they change.
-- [cargo-make](https://sagiegurari.github.io/cargo-make/#installation), task runner and build tool for Rust project.
+- [taskfile](https://taskfile.dev/installation/), task runner and build tool to be simpler and easier to use.
 - [toml-cli](https://github.com/gnprice/toml-cli), a simple CLI for editing and querying TOML files.
 - [Docker](https://docs.docker.com/engine/install), v2.10 or greater, only required when building container image.
 
@@ -52,23 +51,25 @@ cargo run --quiet --locked -- generate-secret
 
 ### Up and Running
 
-1. Prepare environment: `cargo make start-compose`
-2. Install dependencies: `cargo make deps`
-3. Run database migration: `cargo make migrate`
-4. Start development: `cargo make dev`
+1. Prepare environment: `task start-compose`
+2. Install dependencies: `task deps`
+3. Run database migration: `task migrate`
+4. Start development: `task dev`
 
 Application will run at `http://localhost:9090`
 
 ### Essential Commands
 
 ```sh
-cargo make dev             # start development
-cargo make build           # build binary file
-cargo make run             # run release mode
-cargo make docker-build    # build docker image
-cargo make docker-run      # run the docker image
-cargo make docker-push     # publish the docker image
+task dev             # start development
+task build           # build binary file
+task run             # run release mode
+task docker-build    # build docker image
+task docker-run      # run the docker image
+task docker-push     # publish the docker image
 ```
+
+> List all available tasks: `task --list-all`
 
 ## 🧑🏻‍💻 Development
 

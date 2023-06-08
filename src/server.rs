@@ -121,8 +121,9 @@ pub mod middleware {
 
 	pub fn cors() -> CorsLayer {
 		CorsLayer::new()
-			.allow_origin("*".parse::<HeaderValue>().unwrap())
+			.allow_credentials(true)
 			.allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
+			.allow_origin("*".parse::<HeaderValue>().unwrap())
 	}
 }
 
