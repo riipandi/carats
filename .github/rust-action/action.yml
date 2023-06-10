@@ -20,7 +20,7 @@ runs:
     - name: Get MSRV from Cargo.toml
       id: msrv
       shell: bash
-      run: version=$(sed -nE 's/^\s*rust-version = "(.*?)"/\1/p' Cargo.toml) >> $GITHUB_OUTPUT
+      run: grep rust-version Cargo.toml | cut -d'"' -f2 | sed 's/^/version=/' >> $GITHUB_OUTPUT
 
     - name: Install Rust Toolchain
       shell: bash
