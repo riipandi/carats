@@ -45,4 +45,4 @@ runs:
       shell: bash
       run: |
         rustc --version
-        cargo check --all --bins --tests --release
+        cargo check --all --bins --tests --release --locked

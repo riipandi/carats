@@ -57,6 +57,12 @@ tasks:
     silent: true
     cmds: [cargo run --quiet --locked -- generate-secret]
 
+  migrate:
+    desc: Run database migration
+    silent: true
+    interactive: true
+    cmds: [cargo run --quiet --locked -- migrate]
+
   dev-frontend:
     desc: Run frontend in development mode
     internal: true
