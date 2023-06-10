@@ -1,6 +1,6 @@
 # Carats
 
-[![(Rust)](https://img.shields.io/badge/rust-v1.69-orange.svg?logo=rust)](https://www.rust-lang.org/)
+[![(Rust)](https://img.shields.io/badge/rust-v1.70-orange.svg?logo=rust)](https://www.rust-lang.org/)
 [![Contributions](https://img.shields.io/badge/Contributions-welcome-blue.svg)](./CODE_OF_CONDUCT.md)
 [![GitHub contributors](https://badgers.space/github/contributors/riipandi/carats?color=green&corner_radius=3)](https://github.com/riipandi/carats/graphs/contributors)
 [![Twitter Badge](https://badgen.net/badge/icon/Follow%20Twitter?icon=twitter&label&color=blue&labelColor=black)](https://twitter.com/riipandi)
@@ -18,7 +18,7 @@ This is a starter Rust and React project.
 
 The following are required to run the application in development or in production environment:
 
-- [Rust](https://www.rust-lang.org/tools/install) v1.69 or greater.
+- [Rust](https://www.rust-lang.org/tools/install) v1.70 or greater.
 - [Node.js](https://nodejs.org/en/download) v18.16.0 or greater.
 - [PostgreSQL](https://www.postgresql.org/download/) PostgreSQL server v14 or greater.
 - [sqlx](https://crates.io/crates/sqlx) for interacting with the database.

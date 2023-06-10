@@ -4,6 +4,7 @@ version: "3"
 env:
   DOCKER_REGISTRY: '{{default "ghcr.io" .DOCKER_REGISTRY}}'
   DOCKER_USERNAME: '{{default "riipandi" .DOCKER_USERNAME}}'
+  CARGO_TARGET_DIR: target
 
 vars:
   # On macOS you need gnu-sed: brew install gnu-sed
@@ -18,6 +19,16 @@ vars:
   BIND_PORT: '{{default "9090" .BIND_PORT}}'
 
 tasks:
+  pnpm:
+    # dir: frontend
+    cmds:
+      - pnpm {{.CLI_ARGS}}
+
+  cargo:
+    # dir: server
+    cmds:
+      - cargo {{.CLI_ARGS}}
+
   dev:
     desc: Run frontend and server concurrently
     deps:
@@ -29,7 +40,7 @@ tasks:
 
   build:
     desc: Build the project
-    deps: [install-deps, build-frontend]
+    deps: [build-frontend]
     cmds:
       - cargo build --release --locked
       - ls -lh target/release
