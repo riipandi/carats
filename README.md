@@ -1,6 +1,8 @@
 # Carats
 
 [![(Rust)](https://img.shields.io/badge/rust-v1.70-orange.svg?logo=rust)](https://www.rust-lang.org/)
+[![Dependencies](https://deps.rs/repo/github/riipandi/carats/status.svg)](https://deps.rs/repo/github/riipandi/carats)
+![Apache2/MIT licensed](https://img.shields.io/badge/license-Apache2.0/MIT-blue.svg)
 [![Contributions](https://img.shields.io/badge/Contributions-welcome-blue.svg)](./CODE_OF_CONDUCT.md)
 [![GitHub contributors](https://badgers.space/github/contributors/riipandi/carats?color=green&corner_radius=3)](https://github.com/riipandi/carats/graphs/contributors)
 [![Twitter Badge](https://badgen.net/badge/icon/Follow%20Twitter?icon=twitter&label&color=blue&labelColor=black)](https://twitter.com/riipandi)
