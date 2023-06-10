@@ -17,3 +17,6 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
   updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+CREATE INDEX IF NOT EXISTS subscriptions_billable_id_idx on subscriptions (billable_id);
+CREATE INDEX IF NOT EXISTS subscriptions_billable_type_idx on subscriptions (billable_type);
