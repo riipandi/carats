@@ -43,7 +43,7 @@ tasks:
     deps: [build-frontend]
     cmds:
       - cargo build --release --locked
-      - ls -lh target/release
+      - du -hs target/release/carats
 
   build-frontend:
     desc: Build the frontend
