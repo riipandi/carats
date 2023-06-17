@@ -4,9 +4,11 @@
 use std::{net::SocketAddr, time::Duration};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
 
-use axum::{extract::MatchedPath, http::Request, response::Response, Router};
+use axum::extract::{Extension,MatchedPath};
+use axum::{http::Request, response::Response, Router};
 use tower_http::{classify::ServerErrorsFailureClass, trace::TraceLayer};
 use tracing::{field, info_span, Span};
+use sqlx::postgres::PgPoolOptions;
 
 use crate::{routes, utils};
 
@@ -32,7 +34,7 @@ pub async fn run(addr: String) {
 async fn app_service(addr: String) {
 	// Open database connection
 	let conn_str = utils::get_envar("DATABASE_URL", None);
-	let db_pool = sqlx::postgres::PgPoolOptions::new()
+	let pool = PgPoolOptions::new()
 		.max_connections(5)
 		.connect(&conn_str)
 		.await
@@ -42,10 +44,10 @@ async fn app_service(addr: String) {
 	let spa_routes = routes::spa::register();
 
 	let app = Router::new()
-		.with_state(db_pool)
 		.merge(routes::root::register())
 		.nest(BASE_PATH_API, api_routes)
-		.nest(BASE_PATH_SPA, spa_routes);
+		.nest(BASE_PATH_SPA, spa_routes)
+    .layer(Extension(pool));
 
 	tracing::info!("🚀 Application started at http://{}", addr);
 	serve(app, addr).await;
@@ -123,7 +125,7 @@ pub mod middleware {
 		CorsLayer::new()
 			.allow_credentials(true)
 			.allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
-			.allow_origin("*".parse::<HeaderValue>().unwrap())
+			.allow_origin("http://localhost:3000".parse::<HeaderValue>().unwrap())
 	}
 }
 
